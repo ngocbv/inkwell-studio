@@ -1,0 +1,178 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro';
+import PhoneMockup from '../../components/PhoneMockup.astro';
+import FeatureSection from '../../components/FeatureSection.astro';
+import SecurityBadge from '../../components/SecurityBadge.astro';
+import DownloadCTA from '../../components/DownloadCTA.astro';
+import ScrollReveal from '../../components/ScrollReveal.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<AppLayout
+  title="SecureDiary — Private Encrypted Diary App"
+  description="A private diary with AES-256 encryption, mood tracking, daily prompts, and writing streaks. Your thoughts never leave your device."
+  ogImage="/og/diary.png"
+  appName="SecureDiary"
+  appId="com.securediary.secure_diary"
+>
+  <!-- Hero -->
+  <section class="diary-hero">
+    <div class="diary-hero__inner">
+      <div class="diary-hero__text">
+        <img src="/images/apps/secure-diary.png" alt="SecureDiary icon" class="diary-hero__icon" />
+        <h1 class="diary-hero__title">SecureDiary</h1>
+        <p class="diary-hero__tagline">Your thoughts, encrypted.</p>
+        <p class="diary-hero__desc">
+          A private journal that keeps your words safe with military-grade encryption.
+          Track your moods, build writing streaks, and reflect with daily prompts —
+          all without a single byte leaving your device.
+        </p>
+        <a href="#download" class="diary-hero__cta btn-primary">Download Free</a>
+        <p class="diary-hero__note">Free · No ads · No tracking</p>
+      </div>
+      <div class="diary-hero__phone">
+        <PhoneMockup
+          screenshot="/images/screenshots/diary-hero.png"
+          alt="SecureDiary home screen"
+          float
+          transitionName="diary-phone"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <FeatureSection
+    headline="Write freely"
+    body="A rich text editor with bold, italic, headings, lists, and quotes. Add photos from your camera or gallery — all encrypted automatically. Choose from templates like Gratitude, Daily Review, or Morning Pages to guide your writing."
+    screenshot="/images/screenshots/diary-editor.png"
+    accentColor="#C4856A"
+  />
+
+  <FeatureSection
+    headline="Understand your emotions"
+    body="Track how you feel each day with five mood levels. See your emotional patterns over time with monthly mood charts. Browse your calendar with color-coded mood dots showing your journey at a glance."
+    screenshot="/images/screenshots/diary-mood.png"
+    accentColor="#8BA888"
+    reverse
+  />
+
+  <FeatureSection
+    headline="Build a writing habit"
+    body="Get inspired with 50+ thoughtful writing prompts, or create your own. Track your writing streaks and revisit what you wrote on this day in past years with the On This Day feature."
+    screenshot="/images/screenshots/diary-streaks.png"
+    accentColor="#D4A574"
+  />
+
+  <FeatureSection
+    headline="Your diary, your device"
+    body="Zero-knowledge architecture means we can't read your diary even if we wanted to. No accounts, no cloud sync, no analytics. Your PIN and optional biometric lock are the only keys — lose them, and even we can't recover your data. That's privacy by design."
+    screenshot="/images/screenshots/diary-lock.png"
+    accentColor="#3D2C2C"
+    reverse
+  />
+
+  <!-- Security -->
+  <ScrollReveal>
+    <SecurityBadge />
+  </ScrollReveal>
+
+  <!-- Download -->
+  <ScrollReveal>
+    <DownloadCTA />
+  </ScrollReveal>
+
+  <Footer extraLinks={[{ label: 'Privacy Policy', href: '/diary/privacy' }]} />
+</AppLayout>
+
+<style>
+  .diary-hero {
+    padding: 120px 0 var(--section-padding);
+    background: linear-gradient(135deg, #FFF8F0, #F5E6D8, #FFF8F0);
+    background-size: 300% 300%;
+    animation: gradient-shift 20s ease infinite;
+  }
+
+  .diary-hero__inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 64px;
+  }
+
+  .diary-hero__text {
+    flex: 1;
+    opacity: 0;
+    animation: fade-in 0.8s ease 0.2s forwards;
+  }
+
+  .diary-hero__icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    margin-bottom: 16px;
+  }
+
+  .diary-hero__title {
+    font-size: 3rem;
+    color: var(--color-text);
+    margin-bottom: 8px;
+  }
+
+  .diary-hero__tagline {
+    font-size: 1.3rem;
+    color: var(--color-accent);
+    font-family: var(--font-heading);
+    font-style: italic;
+    margin-bottom: 16px;
+  }
+
+  .diary-hero__desc {
+    font-size: 1.05rem;
+    color: var(--color-text-secondary);
+    line-height: 1.8;
+    margin-bottom: 24px;
+    max-width: 480px;
+  }
+
+  .diary-hero__cta {
+    display: inline-block;
+    padding: 14px 32px;
+    background: var(--color-accent);
+    color: white;
+    border-radius: var(--radius-button);
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .diary-hero__note {
+    margin-top: 12px;
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+  }
+
+  .diary-hero__phone {
+    flex: 0 0 auto;
+    opacity: 0;
+    animation: slide-in-right 0.8s ease 0.5s forwards;
+  }
+
+  @media (max-width: 768px) {
+    .diary-hero {
+      padding-top: 100px;
+    }
+    .diary-hero__inner {
+      flex-direction: column;
+      gap: 32px;
+      text-align: center;
+    }
+    .diary-hero__desc {
+      max-width: 100%;
+    }
+    .diary-hero__title { font-size: 2.2rem; }
+  }
+</style>

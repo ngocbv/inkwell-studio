@@ -1,0 +1,230 @@
+---
+interface Props {
+  variant?: 'home' | 'app';
+  appName?: string;
+}
+
+const { variant = 'home', appName = '' } = Astro.props;
+
+const apps = [
+  { name: 'Diary', href: '/diary', live: true },
+  { name: 'Scan', href: '/scan', live: false },
+  { name: 'Vault', href: '/vault', live: false },
+  { name: 'QR', href: '/qr', live: false },
+];
+---
+
+<nav class="nav">
+  <div class="nav__inner">
+    {variant === 'home' ? (
+      <a href="/" class="nav__logo">Inkwell Studio</a>
+    ) : (
+      <a href="/" class="nav__back">&larr; Inkwell Studio</a>
+    )}
+
+    {variant === 'home' ? (
+      <div class="nav__links" data-nav-links>
+        {apps.map(app =>
+          app.live ? (
+            <a href={app.href} class="nav__link">{app.name}</a>
+          ) : (
+            <span class="nav__link nav__link--muted" title="Coming soon">{app.name}</span>
+          )
+        )}
+      </div>
+    ) : (
+      <div class="nav__links" data-nav-links>
+        <a href="#features" class="nav__link">Features</a>
+        <a href="#security" class="nav__link">Security</a>
+        <a href="#download" class="nav__link">Download</a>
+      </div>
+    )}
+
+    <button class="nav__hamburger" aria-label="Toggle menu" data-nav-toggle>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="3" y1="6" x2="21" y2="6" />
+        <line x1="3" y1="12" x2="21" y2="12" />
+        <line x1="3" y1="18" x2="21" y2="18" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile overlay -->
+  <div class="nav__overlay" data-nav-overlay>
+    <button class="nav__close" aria-label="Close menu" data-nav-toggle>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18" />
+        <line x1="6" y1="6" x2="18" y2="18" />
+      </svg>
+    </button>
+    {variant === 'home' ? (
+      <div class="nav__overlay-links">
+        {apps.map((app, i) =>
+          app.live ? (
+            <a href={app.href} class="nav__overlay-link" style={`animation-delay: ${i * 100}ms`}>{app.name}</a>
+          ) : (
+            <span class="nav__overlay-link nav__overlay-link--muted" style={`animation-delay: ${i * 100}ms`} title="Coming soon">{app.name}</span>
+          )
+        )}
+      </div>
+    ) : (
+      <div class="nav__overlay-links">
+        <a href="#features" class="nav__overlay-link" style="animation-delay: 0ms">Features</a>
+        <a href="#security" class="nav__overlay-link" style="animation-delay: 100ms">Security</a>
+        <a href="#download" class="nav__overlay-link" style="animation-delay: 200ms">Download</a>
+      </div>
+    )}
+  </div>
+</nav>
+
+<script>
+  function initNav() {
+    const toggles = document.querySelectorAll('[data-nav-toggle]');
+    const overlay = document.querySelector('[data-nav-overlay]');
+    const nav = document.querySelector('.nav');
+
+    toggles.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const isOpen = nav?.hasAttribute('data-open');
+        if (isOpen) {
+          nav?.removeAttribute('data-open');
+          document.body.style.overflow = '';
+        } else {
+          nav?.setAttribute('data-open', '');
+          document.body.style.overflow = 'hidden';
+        }
+      });
+    });
+
+    // Close on overlay link click
+    overlay?.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        nav?.removeAttribute('data-open');
+        document.body.style.overflow = '';
+      });
+    });
+  }
+
+  initNav();
+  document.addEventListener('astro:page-load', initNav);
+</script>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    height: var(--nav-height);
+    background: rgba(255, 248, 240, 0.8);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: backdrop-filter 0.3s ease, background 0.3s ease;
+  }
+
+  .nav:global(.nav--scrolled) {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    background: rgba(255, 248, 240, 0.92);
+    box-shadow: 0 1px 8px rgba(61, 44, 44, 0.06);
+  }
+
+  .nav__inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav__logo {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .nav__back {
+    font-size: 0.95rem;
+    color: var(--color-accent);
+    transition: opacity 0.2s;
+  }
+  .nav__back:hover { opacity: 0.7; }
+
+  .nav__links {
+    display: flex;
+    gap: 32px;
+  }
+
+  .nav__link {
+    font-size: 0.95rem;
+    color: var(--color-text);
+    transition: color 0.2s;
+  }
+  .nav__link:hover { color: var(--color-accent); }
+  .nav__link--muted {
+    color: var(--color-text-secondary);
+    cursor: default;
+  }
+  .nav__link--muted:hover { color: var(--color-text-secondary); }
+
+  .nav__hamburger {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text);
+    padding: 8px;
+  }
+
+  .nav__overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: var(--color-bg);
+    z-index: 200;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nav__close {
+    position: absolute;
+    top: 16px;
+    right: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text);
+    padding: 8px;
+  }
+
+  .nav__overlay-links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .nav__overlay-link {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    color: var(--color-text);
+    opacity: 0;
+    animation: fade-in 0.3s ease forwards;
+  }
+  .nav__overlay-link--muted {
+    color: var(--color-text-secondary);
+    cursor: default;
+  }
+
+  .nav[data-open] .nav__overlay {
+    display: flex;
+  }
+
+  @media (max-width: 768px) {
+    .nav__links { display: none; }
+    .nav__hamburger { display: block; }
+  }
+</style>

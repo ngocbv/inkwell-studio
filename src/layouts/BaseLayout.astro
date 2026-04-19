@@ -1,0 +1,78 @@
+---
+import { ClientRouter } from 'astro:transitions';
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+}
+
+const { title, description, ogImage = '/og/home.png' } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonicalURL} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={new URL(ogImage, Astro.site)} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={canonicalURL} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <ClientRouter />
+  <slot name="head" />
+</head>
+<body>
+  <slot />
+
+  <script>
+    // Parallax scroll tracking
+    let ticking = false;
+    function updateScrollY() {
+      document.documentElement.style.setProperty('--scroll-y', window.scrollY + 'px');
+      ticking = false;
+    }
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(updateScrollY);
+        ticking = true;
+      }
+    }, { passive: true });
+
+    // Nav blur on scroll
+    function updateNav() {
+      const nav = document.querySelector('.nav');
+      if (nav) {
+        if (window.scrollY > 50) {
+          nav.classList.add('nav--scrolled');
+        } else {
+          nav.classList.remove('nav--scrolled');
+        }
+      }
+    }
+    window.addEventListener('scroll', updateNav, { passive: true });
+    updateNav();
+
+    // Re-run on page transitions
+    document.addEventListener('astro:page-load', () => {
+      updateNav();
+      updateScrollY();
+    });
+  </script>
+
+  <style is:global>
+    @import '../styles/global.css';
+    @import '../styles/animations.css';
+  </style>
+</body>
+</html>

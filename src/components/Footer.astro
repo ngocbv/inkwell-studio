@@ -1,0 +1,114 @@
+---
+interface Props {
+  extraLinks?: Array<{ label: string; href: string }>;
+}
+
+const { extraLinks = [] } = Astro.props;
+
+const apps = [
+  { name: 'SecureDiary', href: '/diary', live: true },
+  { name: 'DocScan', href: '/scan', live: false },
+  { name: 'SecureVault', href: '/vault', live: false },
+  { name: 'QR Toolbox', href: '/qr', live: false },
+];
+---
+
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__brand">
+      <p class="footer__name">Inkwell Studio</p>
+      <p class="footer__tagline">Crafted with care</p>
+    </div>
+
+    <div class="footer__links">
+      <p class="footer__heading">Apps</p>
+      {apps.map(app =>
+        app.live ? (
+          <a href={app.href} class="footer__link">{app.name}</a>
+        ) : (
+          <span class="footer__link footer__link--muted" title="Coming soon">{app.name}</span>
+        )
+      )}
+    </div>
+
+    <div class="footer__links">
+      <p class="footer__heading">Connect</p>
+      <a href="mailto:inkwellstudio38@gmail.com" class="footer__link">inkwellstudio38@gmail.com</a>
+      {extraLinks.map(link => (
+        <a href={link.href} class="footer__link">{link.label}</a>
+      ))}
+    </div>
+  </div>
+
+  <div class="footer__bottom">
+    <p>&copy; {new Date().getFullYear()} Inkwell Studio. All rights reserved.</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--color-dark-bg);
+    color: var(--color-dark-text);
+    padding: 60px 0 24px;
+  }
+
+  .footer__inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 40px;
+  }
+
+  .footer__name {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-dark-text);
+    margin-bottom: 4px;
+  }
+
+  .footer__tagline {
+    color: rgba(255, 248, 240, 0.6);
+    font-size: 0.9rem;
+  }
+
+  .footer__heading {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: rgba(255, 248, 240, 0.5);
+    margin-bottom: 12px;
+  }
+
+  .footer__link {
+    display: block;
+    font-size: 0.95rem;
+    color: rgba(255, 248, 240, 0.8);
+    margin-bottom: 8px;
+    transition: color 0.2s;
+  }
+  .footer__link:hover { color: var(--color-dark-text); }
+  .footer__link--muted {
+    color: rgba(255, 248, 240, 0.35);
+    cursor: default;
+  }
+  .footer__link--muted:hover { color: rgba(255, 248, 240, 0.35); }
+
+  .footer__bottom {
+    max-width: var(--max-width);
+    margin: 40px auto 0;
+    padding: 16px 24px 0;
+    border-top: 1px solid rgba(255, 248, 240, 0.1);
+    font-size: 0.85rem;
+    color: rgba(255, 248, 240, 0.4);
+  }
+
+  @media (max-width: 768px) {
+    .footer__inner {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+  }
+</style>

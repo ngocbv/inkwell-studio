@@ -1,0 +1,146 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import AppShowcase from '../components/AppShowcase.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout
+  title="Inkwell Studio — Privacy-first apps crafted with care"
+  description="Privacy-first tools that respect your data and delight your senses. SecureDiary, DocScan, SecureVault, and QR Toolbox."
+>
+  <Nav variant="home" />
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero__bg"></div>
+    <div class="hero__content">
+      <h1 class="hero__title">Apps crafted with care</h1>
+      <p class="hero__subtitle">Privacy-first tools that respect your data and delight your senses</p>
+    </div>
+    <div class="hero__scroll">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9" />
+      </svg>
+    </div>
+  </section>
+
+  <!-- App Showcases -->
+  <AppShowcase
+    name="SecureDiary"
+    tagline="Your thoughts, encrypted"
+    features={[
+      'AES-256 encrypted journal',
+      'Mood tracking & daily prompts',
+      'Writing streaks & On This Day',
+    ]}
+    accentColor="#C4856A"
+    icon="/images/apps/secure-diary.png"
+    screenshot="/images/screenshots/diary-hero.png"
+    link="/diary"
+    transitionName="diary-phone"
+  />
+
+  <AppShowcase
+    name="DocScan"
+    tagline="Scan, extract, export"
+    features={[
+      'Edge detection & perspective correction',
+      'On-device OCR text extraction',
+      'Searchable PDF export',
+    ]}
+    accentColor="#8BA888"
+    screenshot="/images/screenshots/docscan-hero.png"
+    reverse
+  />
+
+  <AppShowcase
+    name="SecureVault"
+    tagline="Your passwords, locked down"
+    features={[
+      'AES-256 password encryption',
+      'Biometric unlock',
+      'Security audit dashboard',
+    ]}
+    accentColor="#2C3E50"
+    screenshot="/images/screenshots/vault-hero.png"
+  />
+
+  <AppShowcase
+    name="QR Toolbox"
+    tagline="Scan and create QR codes"
+    features={[
+      'Multi-format barcode scanning',
+      'Custom QR code generator',
+      'History with search & favorites',
+    ]}
+    accentColor="#D4A574"
+    screenshot="/images/screenshots/qr-hero.png"
+    reverse
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .hero__bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #FFF8F0, #F5E6D8, #E8D5C4, #F0E0D0, #FFF8F0);
+    background-size: 400% 400%;
+    animation: gradient-shift 20s ease infinite;
+    z-index: 0;
+  }
+
+  .hero__content {
+    position: relative;
+    z-index: 1;
+    max-width: 700px;
+    padding: 0 24px;
+  }
+
+  .hero__title {
+    font-size: 3.5rem;
+    color: var(--color-text);
+    margin-bottom: 16px;
+    opacity: 0;
+    animation: fade-in 0.8s ease 0.2s forwards;
+  }
+
+  .hero__subtitle {
+    font-size: 1.2rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    opacity: 0;
+    animation: fade-in 0.8s ease 0.5s forwards;
+  }
+
+  .hero__scroll {
+    position: absolute;
+    bottom: 32px;
+    z-index: 1;
+    color: var(--color-text-secondary);
+    opacity: 0;
+    animation: fade-in 0.8s ease 0.8s forwards;
+  }
+
+  .hero__scroll svg {
+    animation: chevron-bounce 2s ease-in-out infinite;
+  }
+
+  @media (max-width: 768px) {
+    .hero__title { font-size: 2.2rem; }
+    .hero__subtitle { font-size: 1rem; }
+  }
+</style>

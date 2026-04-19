@@ -1,0 +1,55 @@
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; }
+
+/* Design tokens */
+:root {
+  --color-bg: #FFF8F0;
+  --color-text: #3D2C2C;
+  --color-text-secondary: #888888;
+  --color-accent: #C4856A;
+  --color-card: #FFFFFF;
+  --color-dark-bg: #3D2C2C;
+  --color-dark-text: #FFF8F0;
+  --shadow: 0 2px 12px rgba(61, 44, 44, 0.08);
+  --shadow-hover: 0 8px 24px rgba(61, 44, 44, 0.14);
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --radius-card: 16px;
+  --radius-button: 12px;
+  --max-width: 1200px;
+  --section-padding: 80px;
+  --nav-height: 64px;
+}
+
+/* Base */
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background: var(--color-bg);
+  line-height: 1.7;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Typography */
+h1, h2, h3 { font-family: var(--font-heading); line-height: 1.2; font-weight: 700; }
+h1 { font-size: 3rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.25rem; }
+
+p { color: var(--color-text-secondary); }
+
+/* Utilities */
+.container { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; }
+.section { padding: var(--section-padding) 0; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  :root { --section-padding: 40px; }
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.5rem; }
+}

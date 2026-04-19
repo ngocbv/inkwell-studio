@@ -1,0 +1,91 @@
+---
+import PhoneMockup from './PhoneMockup.astro';
+import ScrollReveal from './ScrollReveal.astro';
+
+interface Props {
+  headline: string;
+  body: string;
+  screenshot?: string;
+  accentColor: string;
+  reverse?: boolean;
+}
+
+const {
+  headline,
+  body,
+  screenshot,
+  accentColor,
+  reverse = false,
+} = Astro.props;
+
+const bgGradient = reverse
+  ? `linear-gradient(225deg, ${accentColor}10 0%, var(--color-bg) 100%)`
+  : `linear-gradient(135deg, ${accentColor}10 0%, var(--color-bg) 100%)`;
+---
+
+<section class:list={['feature', reverse && 'feature--reverse']} style={`background: ${bgGradient};`} id="features">
+  <div class="feature__inner">
+    <ScrollReveal class="feature__text">
+      <h2 class="feature__headline">{headline}</h2>
+      <p class="feature__body">{body}</p>
+    </ScrollReveal>
+
+    <ScrollReveal delay={200} class="feature__phone">
+      <PhoneMockup
+        screenshot={screenshot}
+        alt={headline}
+        tilt
+        placeholder="SecureDiary"
+      />
+    </ScrollReveal>
+  </div>
+</section>
+
+<style>
+  .feature {
+    padding: var(--section-padding) 0;
+  }
+
+  .feature__inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 64px;
+  }
+
+  .feature--reverse .feature__inner {
+    flex-direction: row-reverse;
+  }
+
+  .feature__text {
+    flex: 1;
+  }
+
+  .feature__phone {
+    flex: 0 0 auto;
+  }
+
+  .feature__headline {
+    font-size: 2rem;
+    color: var(--color-text);
+    margin-bottom: 16px;
+  }
+
+  .feature__body {
+    font-size: 1.05rem;
+    color: var(--color-text-secondary);
+    line-height: 1.8;
+  }
+
+  @media (max-width: 768px) {
+    .feature__inner {
+      flex-direction: column;
+      gap: 32px;
+    }
+    .feature--reverse .feature__inner {
+      flex-direction: column;
+    }
+  }
+</style>
