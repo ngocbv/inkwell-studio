@@ -71,9 +71,8 @@
   transform: translateY(0);
 }
 
-/* Parallax */
+/* Parallax — offset is set per-element by JS relative to section center */
 .parallax {
-  transform: translateY(calc(var(--scroll-y, 0) * -0.2));
   will-change: transform;
 }
 

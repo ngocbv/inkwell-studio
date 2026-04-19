@@ -36,15 +36,22 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   <slot />
 
   <script>
-    // Parallax scroll tracking
+    // Per-element parallax relative to viewport center
     let ticking = false;
-    function updateScrollY() {
-      document.documentElement.style.setProperty('--scroll-y', window.scrollY + 'px');
+    function updateParallax() {
+      const elements = document.querySelectorAll('.parallax');
+      const viewportCenter = window.innerHeight / 2;
+      elements.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        const elementCenter = rect.top + rect.height / 2;
+        const offset = (elementCenter - viewportCenter) * 0.08;
+        (el as HTMLElement).style.transform = `translateY(${-offset}px)`;
+      });
       ticking = false;
     }
     window.addEventListener('scroll', () => {
       if (!ticking) {
-        requestAnimationFrame(updateScrollY);
+        requestAnimationFrame(updateParallax);
         ticking = true;
       }
     }, { passive: true });
@@ -66,7 +73,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     // Re-run on page transitions
     document.addEventListener('astro:page-load', () => {
       updateNav();
-      updateScrollY();
+      updateParallax();
     });
   </script>
 
